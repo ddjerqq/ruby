@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "dgSpecHash": "Z7vCwQQcFlXVUjr8Kpimx+dNzSpbCkVjMEvL/y0kDW9S8V4xJYs0O0i6Y2yveQPA0yzXUSFejAv/P4O8ZIVNtg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\COG\\RiderProjects\\Ruby\\Ruby.Api\\Ruby.Api.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\COG\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.7\\microsoft.aspnetcore.openapi.7.0.7.nupkg.sha512",
+    "C:\\Users\\COG\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "C:\\Users\\COG\\.nuget\\packages\\microsoft.openapi\\1.4.3\\microsoft.openapi.1.4.3.nupkg.sha512",
+    "C:\\Users\\COG\\.nuget\\packages\\signalrswaggergen\\4.4.0\\signalrswaggergen.4.4.0.nupkg.sha512",
+    "C:\\Users\\COG\\.nuget\\packages\\signalrswaggergen.core\\1.0.0\\signalrswaggergen.core.1.0.0.nupkg.sha512",
+    "C:\\Users\\COG\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
+    "C:\\Users\\COG\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
+    "C:\\Users\\COG\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
+    "C:\\Users\\COG\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.5.0\\swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}

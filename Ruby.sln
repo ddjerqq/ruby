@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ruby.Api", "Ruby.Api\Ruby.Api.csproj", "{A34186D2-1C8F-4BF1-B9FB-02A4A439CB56}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ruby.Test", "Ruby.Test\Ruby.Test.csproj", "{6C3A7BA8-D9F1-4D6F-8FCA-6DB0D2F1090E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diamond", "Diamond\Diamond.csproj", "{C8417516-5634-48F5-B0B5-6BB3A5A4284E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A34186D2-1C8F-4BF1-B9FB-02A4A439CB56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A34186D2-1C8F-4BF1-B9FB-02A4A439CB56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A34186D2-1C8F-4BF1-B9FB-02A4A439CB56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A34186D2-1C8F-4BF1-B9FB-02A4A439CB56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C3A7BA8-D9F1-4D6F-8FCA-6DB0D2F1090E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C3A7BA8-D9F1-4D6F-8FCA-6DB0D2F1090E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C3A7BA8-D9F1-4D6F-8FCA-6DB0D2F1090E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C3A7BA8-D9F1-4D6F-8FCA-6DB0D2F1090E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8417516-5634-48F5-B0B5-6BB3A5A4284E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8417516-5634-48F5-B0B5-6BB3A5A4284E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8417516-5634-48F5-B0B5-6BB3A5A4284E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8417516-5634-48F5-B0B5-6BB3A5A4284E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
