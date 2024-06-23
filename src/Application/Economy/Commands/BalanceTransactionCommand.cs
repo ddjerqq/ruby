@@ -1,0 +1,42 @@
+using System.ComponentModel;
+using Application.Services;
+using Domain.Aggregates;
+using FluentValidation;
+using MediatR;
+
+namespace Application.Economy.Commands;
+
+public sealed record BalanceTransactionCommand(User Sender, User Receiver, decimal Amount) : IRequest<bool>;
+
+[EditorBrowsable(EditorBrowsableState.Never)]
+public sealed class BalanceTransactionValidator : AbstractValidator<BalanceTransactionCommand>
+{
+    public BalanceTransactionValidator()
+    {
+        RuleLevelCascadeMode = CascadeMode.Stop;
+
+        RuleFor(x => x.Amount)
+            .GreaterThan(0);
+
+        RuleFor(x => x.Sender)
+            .Must((cmd, wallet) => wallet.Wallet.HasBalance(cmd.Amount))
+            .WithMessage("Sender does not have enough balance to send this amount.");
+    }
+}
+
+[EditorBrowsable(EditorBrowsableState.Never)]
+internal sealed class BalanceTransactionHandler(IAppDbContext dbContext) : IRequestHandler<BalanceTransactionCommand, bool>
+{
+    public async Task<bool> Handle(BalanceTransactionCommand command, CancellationToken ct)
+    {
+        if (!command.Sender.Wallet.TryTransfer(command.Receiver.Wallet, command.Amount))
+            return false;
+
+        // this may not even be required.
+        dbContext.Set<User>().Update(command.Sender);
+        dbContext.Set<User>().Update(command.Receiver);
+        await dbContext.SaveChangesAsync(ct);
+
+        return true;
+    }
+}
