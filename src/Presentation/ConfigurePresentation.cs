@@ -61,6 +61,7 @@ public sealed class ConfigurePresentation : ConfigurationBase
                 options.JsonSerializerOptions.Converters.Add(new UserIdToStringJsonConverter());
                 options.JsonSerializerOptions.Converters.Add(new ItemIdToStringJsonConverter());
                 options.JsonSerializerOptions.Converters.Add(new ItemTypeIdToStringJsonConverter());
+                options.JsonSerializerOptions.Converters.Add(new CaseIdToStringJsonConverter());
                 options.JsonSerializerOptions.Converters.Add(new OutboxMessageIdToStringJsonConverter());
             });
 

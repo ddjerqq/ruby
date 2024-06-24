@@ -4,6 +4,7 @@ using Domain.Aggregates;
 using Domain.Common;
 using Domain.Entities;
 using Domain.Enums;
+using Domain.ValueObjects;
 using Infrastructure.Persistence.Interceptors;
 using Infrastructure.Persistence.ValueConverters;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,10 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options, Convert
     public DbSet<Item> Items => Set<Item>();
 
     public DbSet<ItemType> ItemTypes => Set<ItemType>();
+
+    public DbSet<Case> Cases => Set<Case>();
+
+    public DbSet<CaseDrop> CaseDrops => Set<CaseDrop>();
 
     public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
 
@@ -53,9 +58,11 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options, Convert
             .Properties<ItemRarity>()
             .HaveConversion<EnumToStringConverter<ItemRarity>>();
 
+        // source generators
         builder.ConfigureUserIdConventions();
         builder.ConfigureItemIdConventions();
         builder.ConfigureItemTypeIdConventions();
+        builder.ConfigureCaseIdConventions();
         builder.ConfigureOutboxMessageIdConventions();
 
         base.ConfigureConventions(builder);
