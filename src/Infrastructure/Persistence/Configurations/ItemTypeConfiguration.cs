@@ -30,6 +30,8 @@ internal sealed class ItemTypeConfiguration : IEntityTypeConfiguration<ItemType>
         });
 
         builder.HasMany<Item>()
-            .WithOne(item => item.Type);
+            .WithOne(item => item.ItemType)
+            .HasForeignKey(item => item.ItemTypeId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

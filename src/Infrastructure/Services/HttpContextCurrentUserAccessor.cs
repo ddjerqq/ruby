@@ -16,27 +16,26 @@ public sealed class HttpContextCurrentUserAccessor(IHttpContextAccessor httpCont
         {
             var stringId = httpContextAccessor
                 .HttpContext?
-                .User
-                .Claims
-                .FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sid)?
-                .Value;
+                .User.Claims
+                .FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sid)?.Value;
 
-            return Ulid.TryParse(stringId, out var id)
-                ? new UserId(id)
-                : null;
+            return UserId.TryParse(stringId, out var id) ? id : null;
         }
     }
 
-    public async Task<User?> GetCurrentUserAsync(CancellationToken ct = default)
+    public async Task<User?> TryGetCurrentUserAsync(CancellationToken ct = default)
     {
         var id = CurrentUserId;
+        if (id is null) return null;
 
-        if (id is null)
-            return null;
+        if (httpContextAccessor.HttpContext!.Items.TryGetValue(nameof(User), out var cachedUser) && cachedUser is User user)
+            return user;
 
-        return await dbContext
-            .Set<User>()
-            .AsNoTracking()
-            .FirstOrDefaultAsync(u => u.Id == id, ct);
+        var userFromDb = await dbContext.Users.FirstOrDefaultAsync(u => u.Id == id, ct);
+        if (userFromDb is null)
+            throw new InvalidOperationException($"Failed to load the user from the database, user with id: {id} not found");
+
+        httpContextAccessor.HttpContext!.Items.Add(nameof(User), userFromDb);
+        return userFromDb;
     }
 }

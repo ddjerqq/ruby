@@ -7,5 +7,5 @@ public interface ICurrentUserAccessor
 {
     public UserId? CurrentUserId { get; }
 
-    public Task<User?> GetCurrentUserAsync(CancellationToken ct = default);
+    public Task<User?> TryGetCurrentUserAsync(CancellationToken ct = default);
 }

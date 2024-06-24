@@ -16,8 +16,9 @@ using Ruby.Generated;
 namespace Presentation.Controllers.v1;
 
 /// <summary>
-/// controller for authentication
+/// Controller for basics
 /// </summary>
+[Route("/api/v1/[controller]")]
 public sealed class HomeController : ApiController
 {
     private IMediator Mediator => GetRequiredService<IMediator>();
@@ -61,15 +62,5 @@ public sealed class HomeController : ApiController
     {
         var itemsBought = await Mediator.Send(new BuyItemsCommand(UserId.Parse(userId), ItemTypeId.Parse(itemTypeId), quantity), ct);
         return Ok(itemsBought.Select(Mapper.Map<ItemDto>));
-    }
-
-    /// <summary>
-    /// Create a new user from query
-    /// </summary>
-    [HttpPost("create_user")]
-    public async Task<ActionResult<UserDto>> CreateUser([FromQuery] string username, CancellationToken ct)
-    {
-        var user = await Mediator.Send(new CreateRandomUserCommand(username), ct);
-        return Ok(Mapper.Map<UserDto>(user));
     }
 }

@@ -5,6 +5,7 @@ using Infrastructure.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace Infrastructure;
 
@@ -28,6 +29,6 @@ public sealed class ConfigureAuth : ConfigurationBase
         // an example, of an authorization policy
         services.AddAuthorizationBuilder()
             .AddDefaultPolicy("default", policy => policy.RequireAuthenticatedUser())
-            .AddPolicy("is_elon", policy => policy.RequireClaim(ClaimTypes.NameIdentifier, "elon"));
+            .AddPolicy("is_elon", policy => policy.RequireClaim(JwtRegisteredClaimNames.Name, "elon"));
     }
 }

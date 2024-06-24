@@ -12,10 +12,16 @@ internal sealed class CaseDropConfiguration : IEntityTypeConfiguration<CaseDrop>
     {
         builder.HasChangeTrackingStrategy(ChangeTrackingStrategy.Snapshot);
 
-        builder.HasKey(drop => new { drop.CaseId, drop.ItemTypeId });
+        builder.HasKey(drop => new { CaseId = drop.CaseTypeId, drop.ItemTypeId });
 
-        builder.HasOne(drop => drop.Case)
+        builder.HasOne(drop => drop.CaseType)
             .WithMany(@case => @case.Drops)
-            .HasForeignKey(drop => drop.CaseId);
+            .HasForeignKey(drop => drop.CaseTypeId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne(drop => drop.ItemType)
+            .WithMany()
+            .HasForeignKey(drop => drop.ItemTypeId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -5,7 +5,7 @@ namespace Infrastructure.Auth;
 
 public static class Cookie
 {
-    public static readonly CookieOptions Options = new()
+    public static readonly CookieOptions SecureOptions = new()
     {
         Domain = "WEB_APP__DOMAIN".FromEnv(),
         MaxAge = TimeSpan.FromDays(1),

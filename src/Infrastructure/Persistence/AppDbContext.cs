@@ -63,6 +63,7 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options, Convert
         builder.ConfigureItemIdConventions();
         builder.ConfigureItemTypeIdConventions();
         builder.ConfigureCaseIdConventions();
+        builder.ConfigureCaseTypeIdConventions();
         builder.ConfigureOutboxMessageIdConventions();
 
         base.ConfigureConventions(builder);

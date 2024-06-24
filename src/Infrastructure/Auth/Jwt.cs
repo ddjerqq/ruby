@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Application.Services;
+using Domain.Aggregates;
 using Domain.Common;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -56,5 +57,16 @@ public static class Jwt
             signingCredentials: SigningCredentials);
 
         return Handler.WriteToken(token);
+    }
+
+    public static IEnumerable<Claim> GetUserClaims(User user)
+    {
+        return new[]
+        {
+            new Claim(JwtRegisteredClaimNames.Sid, user.Id.ToString()),
+            new Claim(JwtRegisteredClaimNames.Name, user.Username),
+            new Claim(JwtRegisteredClaimNames.Email, user.Email),
+            new Claim("role", user.Level.DisplayName),
+        };
     }
 }

@@ -69,6 +69,12 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("created_by");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("email");
+
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("TEXT")
                         .HasColumnName("last_modified");
@@ -80,6 +86,12 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<int>("Level")
                         .HasColumnType("INTEGER")
                         .HasColumnName("level");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("password_hash");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -94,25 +106,70 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasKey("Id")
                         .HasName("p_k_user");
 
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasDatabaseName("i_x_user_email");
+
                     b.HasIndex("Username")
                         .IsUnique()
                         .HasDatabaseName("i_x_user_username");
 
                     b.ToTable("user");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "user_0001js40400000000000000000",
-                            Created = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            CreatedBy = "system",
-                            Level = 1,
-                            Username = "ddjerqq",
-                            Wallet = 1000m
-                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Case", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("id");
+
+                    b.Property<string>("CaseTypeId")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("case_type_id");
+
+                    b.Property<DateTime?>("Created")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("created");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("created_by");
+
+                    b.Property<bool>("IsOpened")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("is_opened");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("last_modified");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("last_modified_by");
+
+                    b.Property<DateTime?>("OpenedOn")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("opened_on");
+
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("owner_id");
+
+                    b.HasKey("Id")
+                        .HasName("p_k_case");
+
+                    b.HasIndex("CaseTypeId")
+                        .HasDatabaseName("i_x_case_case_type_id");
+
+                    b.HasIndex("OwnerId")
+                        .HasDatabaseName("i_x_case_owner_id");
+
+                    b.ToTable("case");
+                });
+
+            modelBuilder.Entity("Domain.Entities.CaseType", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT")
@@ -128,7 +185,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
-                        .HasMaxLength(64)
+                        .HasMaxLength(32)
                         .HasColumnType("TEXT")
                         .HasColumnName("image_url");
 
@@ -146,18 +203,10 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("name");
 
-                    b.Property<string>("OwnerId")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("owner_id");
-
                     b.HasKey("Id")
-                        .HasName("p_k_case");
+                        .HasName("p_k_case_type");
 
-                    b.HasIndex("OwnerId")
-                        .HasDatabaseName("i_x_case_owner_id");
-
-                    b.ToTable("case");
+                    b.ToTable("case_type");
                 });
 
             modelBuilder.Entity("Domain.Entities.Item", b =>
@@ -174,6 +223,11 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("created_by");
 
+                    b.Property<string>("ItemTypeId")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("item_type_id");
+
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("TEXT")
                         .HasColumnName("last_modified");
@@ -186,11 +240,6 @@ namespace Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("owner_id");
-
-                    b.Property<string>("TypeId")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("type_id");
 
                     b.ComplexProperty<Dictionary<string, object>>("Quality", "Domain.Entities.Item.Quality#ItemQuality", b1 =>
                         {
@@ -208,11 +257,11 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasKey("Id")
                         .HasName("p_k_item");
 
+                    b.HasIndex("ItemTypeId")
+                        .HasDatabaseName("i_x_item_item_type_id");
+
                     b.HasIndex("OwnerId")
                         .HasDatabaseName("i_x_item_owner_id");
-
-                    b.HasIndex("TypeId")
-                        .HasDatabaseName("i_x_item_type_id");
 
                     b.ToTable("item");
                 });
@@ -306,9 +355,9 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Domain.ValueObjects.CaseDrop", b =>
                 {
-                    b.Property<string>("CaseId")
+                    b.Property<string>("CaseTypeId")
                         .HasColumnType("TEXT")
-                        .HasColumnName("case_id");
+                        .HasColumnName("case_type_id");
 
                     b.Property<string>("ItemTypeId")
                         .HasColumnType("TEXT")
@@ -322,7 +371,7 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("drop_price");
 
-                    b.HasKey("CaseId", "ItemTypeId")
+                    b.HasKey("CaseTypeId", "ItemTypeId")
                         .HasName("p_k_case_drop");
 
                     b.HasIndex("ItemTypeId")
@@ -333,6 +382,13 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Case", b =>
                 {
+                    b.HasOne("Domain.Entities.CaseType", "CaseType")
+                        .WithMany()
+                        .HasForeignKey("CaseTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("f_k_case__case_type_case_type_id");
+
                     b.HasOne("Domain.Aggregates.User", "Owner")
                         .WithMany("CaseInventory")
                         .HasForeignKey("OwnerId")
@@ -340,11 +396,20 @@ namespace Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasConstraintName("f_k_case_user_owner_id");
 
+                    b.Navigation("CaseType");
+
                     b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("Domain.Entities.Item", b =>
                 {
+                    b.HasOne("Domain.Entities.ItemType", "ItemType")
+                        .WithMany()
+                        .HasForeignKey("ItemTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("f_k_item__item_types_item_type_id");
+
                     b.HasOne("Domain.Aggregates.User", "Owner")
                         .WithMany("ItemInventory")
                         .HasForeignKey("OwnerId")
@@ -352,26 +417,19 @@ namespace Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasConstraintName("f_k_item_user_owner_id");
 
-                    b.HasOne("Domain.Entities.ItemType", "Type")
-                        .WithMany()
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("f_k_item__item_types_type_id");
+                    b.Navigation("ItemType");
 
                     b.Navigation("Owner");
-
-                    b.Navigation("Type");
                 });
 
             modelBuilder.Entity("Domain.ValueObjects.CaseDrop", b =>
                 {
-                    b.HasOne("Domain.Entities.Case", "Case")
+                    b.HasOne("Domain.Entities.CaseType", "CaseType")
                         .WithMany("Drops")
-                        .HasForeignKey("CaseId")
+                        .HasForeignKey("CaseTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("f_k_case_drop_case_case_id");
+                        .HasConstraintName("f_k_case_drop_case_type_case_type_id");
 
                     b.HasOne("Domain.Entities.ItemType", "ItemType")
                         .WithMany()
@@ -380,7 +438,7 @@ namespace Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasConstraintName("f_k_case_drop_item_type_item_type_id");
 
-                    b.Navigation("Case");
+                    b.Navigation("CaseType");
 
                     b.Navigation("ItemType");
                 });
@@ -392,7 +450,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("ItemInventory");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Case", b =>
+            modelBuilder.Entity("Domain.Entities.CaseType", b =>
                 {
                     b.Navigation("Drops");
                 });

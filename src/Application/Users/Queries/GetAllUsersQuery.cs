@@ -14,6 +14,8 @@ internal sealed class GetAllUsersQueryHandler(IAppDbContext dbContext) : IReques
     public async Task<IEnumerable<User>> Handle(GetAllUsersQuery request, CancellationToken ct)
     {
         return await dbContext.Set<User>()
+            .Include(x => x.ItemInventory)
+            .Include(x => x.CaseInventory)
             .OrderBy(x => x.Id)
             .Skip(request.Page * request.PerPage)
             .Take(request.PerPage)

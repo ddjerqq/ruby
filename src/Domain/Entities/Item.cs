@@ -8,9 +8,13 @@ namespace Domain.Entities;
 [StrongId(typeof(Ulid))]
 public sealed class Item(ItemId id) : Entity<ItemId>(id)
 {
-    public ItemType Type { get; init; } = default!;
+    public ItemTypeId ItemTypeId { get; init; }
+    public ItemType ItemType { get; init; } = default!;
 
     public ItemQuality Quality { get; init; } = default!;
 
+    public string ImageUrl => ItemType.Image.GetImageForQuality(Quality.QualityType);
+
+    public UserId OwnerId { get; init; }
     public User Owner { get; init; } = default!;
 }

@@ -12,22 +12,14 @@ internal sealed class CaseConfiguration : IEntityTypeConfiguration<Case>
     {
         builder.HasChangeTrackingStrategy(ChangeTrackingStrategy.Snapshot);
 
-        builder.Property(x => x.Name)
-            .HasMaxLength(32);
+        builder.HasOne(@case => @case.CaseType)
+            .WithMany()
+            .HasForeignKey(@case => @case.CaseTypeId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-        builder.Property(x => x.ImageUrl)
-            .HasMaxLength(64);
-
-        builder
-            .Ignore(x => x.Price)
-            .Ignore(x => x.AveragePrice)
-            .Ignore(x => x.WinRate)
-            .Ignore(x => x.Roi);
-
-        builder
-            .HasMany(@case => @case.Drops)
-            .WithOne(drop => drop.Case)
-            .HasForeignKey(drop => drop.CaseId)
+        builder.HasOne(@case => @case.Owner)
+            .WithMany(user => user.CaseInventory)
+            .HasForeignKey(@case => @case.OwnerId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

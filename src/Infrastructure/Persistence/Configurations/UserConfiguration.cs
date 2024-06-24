@@ -20,40 +20,29 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(e => e.Username)
             .HasMaxLength(32);
 
+        builder.HasIndex(e => e.Email)
+            .IsUnique();
+
+        builder.Property(e => e.Email)
+            .HasMaxLength(128);
+
+        builder.Property(e => e.PasswordHash)
+            .HasMaxLength(60);
+
         builder.Property(e => e.Level)
-            .HasConversion(
-                level => level.Value,
-                exp => new Level(exp));
+            .HasConversion(level => level.Value, exp => new Level(exp));
 
         builder.Property(e => e.Wallet)
-            .HasConversion(
-                wallet => wallet.Balance,
-                balance => new Wallet(balance));
+            .HasConversion(wallet => wallet.Balance, balance => new Wallet(balance));
 
         builder.HasMany(e => e.ItemInventory)
-            .WithOne(item => item.Owner);
+            .WithOne(item => item.Owner)
+            .HasForeignKey(item => item.OwnerId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(e => e.CaseInventory)
-            .WithOne(@case => @case.Owner);
-
-        SeedData(builder);
-    }
-
-    private static void SeedData(EntityTypeBuilder<User> builder)
-    {
-        // dt: 2024-01-01
-        // ts: 1704067200
-        // id: 0001JS40400000000000000000
-
-        var user0 = new User(UserId.Parse("user_0001js40400000000000000000"))
-        {
-            Username = "ddjerqq",
-            Level = new Level(1),
-            Wallet = new Wallet(1000),
-            Created = new DateTime(2024, 01, 01, 0, 0, 0, DateTimeKind.Utc),
-            CreatedBy = "system",
-        };
-
-        builder.HasData(user0);
+            .WithOne(@case => @case.Owner)
+            .HasForeignKey(@case => @case.OwnerId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

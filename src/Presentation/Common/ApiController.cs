@@ -7,7 +7,6 @@ namespace Presentation.Common;
 /// </summary>
 [ApiController]
 [Produces("application/json")]
-[Route("/api/[controller]")]
 public abstract class ApiController : ControllerBase
 {
     /// <summary>

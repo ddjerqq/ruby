@@ -19,7 +19,11 @@ public sealed record UserDto
 
     public int ItemCount { get; init; }
 
-    public IEnumerable<ItemDto> Inventory { get; init; } = [];
+    public int CaseCount { get; init; }
+
+    public IEnumerable<ItemDto> ItemInventory { get; init; } = [];
+
+    public IEnumerable<ItemDto> CaseInventory { get; init; } = [];
 }
 
 [EditorBrowsable(EditorBrowsableState.Never)]
@@ -34,6 +38,8 @@ internal sealed class UserDtoMappingProfile : Profile
             .ForMember(u => u.Level, opt => opt.MapFrom(u => u.Level.DisplayName))
             .ForMember(u => u.WalletBalance, opt => opt.MapFrom(u => u.Wallet.Balance))
             .ForMember(u => u.ItemCount, opt => opt.MapFrom(u => u.ItemInventory.Count))
-            .ForMember(u => u.Inventory, opt => opt.MapFrom(u => u.ItemInventory));
+            .ForMember(u => u.CaseCount, opt => opt.MapFrom(u => u.CaseInventory.Count))
+            .ForMember(u => u.ItemInventory, opt => opt.MapFrom(u => u.ItemInventory))
+            .ForMember(u => u.CaseInventory, opt => opt.MapFrom(u => u.CaseInventory));
     }
 }

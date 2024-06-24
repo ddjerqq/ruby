@@ -26,7 +26,7 @@ public sealed class ItemType(ItemTypeId id) : Entity<ItemTypeId>(id)
 
     public Item NewItem(User owner, DateTime created, string createdBy) => new(ItemId.NewItemId())
     {
-        Type = this,
+        ItemType = this,
         Quality = ItemQuality.NewItemQuality(QualityMin, QualityMax, StatTrackAvailable),
         Owner = owner,
         Created = created,

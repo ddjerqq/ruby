@@ -13,7 +13,7 @@ internal sealed class LoggingBehaviour<TRequest, TResponse>(
 {
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken ct)
     {
-        var user = await currentUserAccessor.GetCurrentUserAsync(ct);
+        var user = await currentUserAccessor.TryGetCurrentUserAsync(ct);
 
         logger.LogInformation(
             "{@UserId} {@UserName} started request {@RequestName} {@Request}",

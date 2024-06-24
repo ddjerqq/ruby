@@ -12,8 +12,12 @@ internal sealed class ItemConfiguration : IEntityTypeConfiguration<Item>
     {
         builder.HasChangeTrackingStrategy(ChangeTrackingStrategy.Snapshot);
 
-        builder.HasOne(x => x.Type)
-            .WithMany();
+        builder.Ignore(x => x.ImageUrl);
+
+        builder.HasOne(x => x.ItemType)
+            .WithMany()
+            .HasForeignKey(item => item.ItemTypeId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.ComplexProperty(x => x.Quality, qualityBuilder =>
         {
@@ -23,6 +27,8 @@ internal sealed class ItemConfiguration : IEntityTypeConfiguration<Item>
         });
 
         builder.HasOne(item => item.Owner)
-            .WithMany(owner => owner.ItemInventory);
+            .WithMany(owner => owner.ItemInventory)
+            .HasForeignKey(item => item.OwnerId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
