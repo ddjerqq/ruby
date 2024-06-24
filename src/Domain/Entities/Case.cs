@@ -1,5 +1,5 @@
-using System.ComponentModel.DataAnnotations;
 using Domain.Abstractions;
+using Domain.Aggregates;
 using Domain.ValueObjects;
 using Ruby.Generated;
 
@@ -16,6 +16,10 @@ public sealed class Case(CaseId id) : Entity<CaseId>(id)
 
     public string ImageUrl { get; init; } = default!;
 
+    public IEnumerable<CaseDrop> Drops => _drops;
+
+    public User Owner { get; init; } = default!;
+
     public decimal Price =>
         Drops.Sum(drop => drop.DropPrice * drop.DropChance) * HouseEdge;
 
@@ -26,8 +30,6 @@ public sealed class Case(CaseId id) : Entity<CaseId>(id)
         .Sum(drop => drop.DropChance);
 
     public float Roi => WinRate / (float)HouseEdge;
-
-    public IEnumerable<CaseDrop> Drops => _drops;
 
     public CaseDrop Open()
     {

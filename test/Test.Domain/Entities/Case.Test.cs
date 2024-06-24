@@ -1,6 +1,5 @@
 using Domain.Entities;
 using Domain.ValueObjects;
-using Ruby.Generated;
 
 namespace Test.Domain.Entities;
 

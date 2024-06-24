@@ -33,7 +33,7 @@ public sealed class ItemType(ItemTypeId id) : Entity<ItemTypeId>(id)
         CreatedBy = createdBy,
     };
 
-    public static ItemType RandomItemType()
+    public static ItemType RandomItemType(string name, string? description = default)
     {
         var image = new ItemImage(
             "https://via.placeholder.com/256?text=factory_new",
@@ -47,8 +47,8 @@ public sealed class ItemType(ItemTypeId id) : Entity<ItemTypeId>(id)
 
         return new ItemType(ItemTypeId.NewItemTypeId())
         {
-            Name = "Random Item Type",
-            Description = "not provided",
+            Name = name,
+            Description = description ?? "not provided",
             QualityMin = Random.Shared.NextSingleBetween(0f, 0.1f),
             QualityMax = Random.Shared.NextSingleBetween(0.4f, 1f),
             StatTrackAvailable = Random.Shared.Next(0, 10) == 1,

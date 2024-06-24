@@ -23,6 +23,6 @@ internal sealed class ItemConfiguration : IEntityTypeConfiguration<Item>
         });
 
         builder.HasOne(item => item.Owner)
-            .WithMany(owner => owner.Inventory);
+            .WithMany(owner => owner.ItemInventory);
     }
 }

@@ -1,8 +1,6 @@
 using System.ComponentModel;
 using System.Reflection;
 using Microsoft.OpenApi.Models;
-using Presentation.Common;
-using Ruby.Generated;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Presentation.Swagger;

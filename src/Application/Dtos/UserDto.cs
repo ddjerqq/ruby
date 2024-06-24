@@ -33,7 +33,7 @@ internal sealed class UserDtoMappingProfile : Profile
             .ForMember(u => u.Experience, opt => opt.MapFrom(u => u.Level.Value))
             .ForMember(u => u.Level, opt => opt.MapFrom(u => u.Level.DisplayName))
             .ForMember(u => u.WalletBalance, opt => opt.MapFrom(u => u.Wallet.Balance))
-            .ForMember(u => u.ItemCount, opt => opt.MapFrom(u => u.Inventory.Count))
-            .ForMember(u => u.Inventory, opt => opt.MapFrom(u => u.Inventory));
+            .ForMember(u => u.ItemCount, opt => opt.MapFrom(u => u.ItemInventory.Count))
+            .ForMember(u => u.Inventory, opt => opt.MapFrom(u => u.ItemInventory));
     }
 }

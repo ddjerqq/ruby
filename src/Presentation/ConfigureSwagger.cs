@@ -2,7 +2,6 @@ using System.ComponentModel;
 using System.Reflection;
 using Application;
 using Microsoft.OpenApi.Models;
-using Presentation.Common;
 using Presentation.Swagger;
 
 namespace Presentation;

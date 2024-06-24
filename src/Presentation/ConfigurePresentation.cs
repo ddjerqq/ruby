@@ -5,7 +5,6 @@ using Application;
 using Domain.Common;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.ResponseCompression;
-using Presentation.Common;
 using Presentation.Filters;
 using Presentation.HealthChecks;
 using Ruby.Generated;

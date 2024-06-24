@@ -30,8 +30,11 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
                 wallet => wallet.Balance,
                 balance => new Wallet(balance));
 
-        builder.HasMany(e => e.Inventory)
+        builder.HasMany(e => e.ItemInventory)
             .WithOne(item => item.Owner);
+
+        builder.HasMany(e => e.CaseInventory)
+            .WithOne(@case => @case.Owner);
 
         SeedData(builder);
     }

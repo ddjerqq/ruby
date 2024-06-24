@@ -12,6 +12,12 @@ internal sealed class CaseConfiguration : IEntityTypeConfiguration<Case>
     {
         builder.HasChangeTrackingStrategy(ChangeTrackingStrategy.Snapshot);
 
+        builder.Property(x => x.Name)
+            .HasMaxLength(32);
+
+        builder.Property(x => x.ImageUrl)
+            .HasMaxLength(64);
+
         builder
             .Ignore(x => x.Price)
             .Ignore(x => x.AveragePrice)

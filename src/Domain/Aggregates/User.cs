@@ -14,5 +14,7 @@ public sealed class User(UserId id) : AggregateRoot<UserId>(id)
 
     public Wallet Wallet { get; init; } = default!;
 
-    public ICollection<Item> Inventory { get; init; } = [];
+    public ICollection<Case> CaseInventory { get; init; } = [];
+
+    public ICollection<Item> ItemInventory { get; init; } = [];
 }
