@@ -1,10 +1,12 @@
+using System.ComponentModel;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Presentation.Swagger;
 
-public sealed class RequestedWithXmlHttpRequest : IOperationFilter
+[EditorBrowsable(EditorBrowsableState.Never)]
+internal sealed class RequestedWithXmlHttpRequest : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {

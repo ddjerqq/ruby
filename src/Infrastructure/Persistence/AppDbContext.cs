@@ -4,7 +4,6 @@ using Domain.Aggregates;
 using Domain.Common;
 using Domain.Entities;
 using Domain.Enums;
-using Domain.ValueObjects;
 using Infrastructure.Persistence.Interceptors;
 using Infrastructure.Persistence.ValueConverters;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +15,10 @@ namespace Infrastructure.Persistence;
 public sealed class AppDbContext(DbContextOptions<AppDbContext> options, ConvertDomainEventsToOutboxMessagesInterceptor convertDomainEventsToOutboxMessagesInterceptor) : DbContext(options), IAppDbContext
 {
     public DbSet<User> Users => Set<User>();
+
+    public DbSet<Item> Items => Set<Item>();
+
+    public DbSet<ItemType> ItemTypes => Set<ItemType>();
 
     public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
 
@@ -52,6 +55,7 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options, Convert
 
         builder.ConfigureUserIdConventions();
         builder.ConfigureItemIdConventions();
+        builder.ConfigureItemTypeIdConventions();
         builder.ConfigureOutboxMessageIdConventions();
 
         base.ConfigureConventions(builder);

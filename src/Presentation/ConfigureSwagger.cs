@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Reflection;
 using Application;
 using Microsoft.OpenApi.Models;
+using Presentation.Common;
 using Presentation.Swagger;
 
 namespace Presentation;
@@ -25,6 +26,7 @@ public sealed class ConfigureSwagger : ConfigurationBase
 
             options.OperationFilter<IdempotencyKeyOperationFilter>();
             options.OperationFilter<RequestedWithXmlHttpRequest>();
+            options.SchemaFilter<StrongIdSchemaFilter>();
 
             options.SupportNonNullableReferenceTypes();
 
@@ -32,8 +34,7 @@ public sealed class ConfigureSwagger : ConfigurationBase
             {
                 Title = "ruby",
                 Version = "v1",
-                Description = "A ready-to-use template for ASP.NET Core with Domain Driven Design - clean architecture. " +
-                              "Mediator, CQRS, StrongID patterns, Blazor WASM front-end, and much more!",
+                Description = "Digital casino with cases, items and blockchain!",
             });
 
             options.AddSecurityRequirement(new OpenApiSecurityRequirement

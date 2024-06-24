@@ -1,5 +1,3 @@
-using Domain.Abstractions;
-
 namespace Domain.ValueObjects;
 
 public sealed record Wallet(decimal Balance) : IWallet

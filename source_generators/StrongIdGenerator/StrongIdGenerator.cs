@@ -11,7 +11,7 @@ namespace StrongIdGenerator;
 [Generator]
 public sealed class StrongIdGenerator : IIncrementalGenerator
 {
-    private const string GeneratedCodeAttribute = """[global::System.CodeDom.Compiler.GeneratedCodeAttribute("ruby.StrongIdGenerator", "2.0.0")]""";
+    private const string GeneratedCodeAttribute = """[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Ruby.StrongIdGenerator", "2.0.0")]""";
 
     private const string StrongIdHelperSourceCode =
         $$"""

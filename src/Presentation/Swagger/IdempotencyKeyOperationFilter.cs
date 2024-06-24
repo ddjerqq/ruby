@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
@@ -5,7 +6,8 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Presentation.Swagger;
 
-public sealed class IdempotencyKeyOperationFilter : IOperationFilter
+[EditorBrowsable(EditorBrowsableState.Never)]
+internal sealed class IdempotencyKeyOperationFilter : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {

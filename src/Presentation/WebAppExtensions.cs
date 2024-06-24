@@ -1,9 +1,7 @@
 using System.Reflection;
 using Application;
-using Domain.Entities;
 using Infrastructure.Idempotency;
 using Infrastructure.Persistence;
-using Infrastructure.Persistence.Configurations;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Presentation.Hubs;

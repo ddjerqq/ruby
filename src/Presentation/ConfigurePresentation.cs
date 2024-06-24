@@ -5,6 +5,7 @@ using Application;
 using Domain.Common;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.ResponseCompression;
+using Presentation.Common;
 using Presentation.Filters;
 using Presentation.HealthChecks;
 using Ruby.Generated;
@@ -59,6 +60,7 @@ public sealed class ConfigurePresentation : ConfigurationBase
                 // source generators
                 options.JsonSerializerOptions.Converters.Add(new UserIdToStringJsonConverter());
                 options.JsonSerializerOptions.Converters.Add(new ItemIdToStringJsonConverter());
+                options.JsonSerializerOptions.Converters.Add(new ItemTypeIdToStringJsonConverter());
                 options.JsonSerializerOptions.Converters.Add(new OutboxMessageIdToStringJsonConverter());
             });
 

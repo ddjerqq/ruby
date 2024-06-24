@@ -12,6 +12,8 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
+        builder.HasChangeTrackingStrategy(ChangeTrackingStrategy.Snapshot);
+
         builder.HasIndex(e => e.Username)
             .IsUnique();
 
@@ -29,8 +31,7 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
                 balance => new Wallet(balance));
 
         builder.HasMany(e => e.Inventory)
-            .WithOne(item => item.Owner)
-            .HasForeignKey(item => item.OwnerId);
+            .WithOne(item => item.Owner);
 
         SeedData(builder);
     }

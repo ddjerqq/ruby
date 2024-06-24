@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using AutoMapper;
 using Domain.Aggregates;
-using Domain.ValueObjects;
 using Ruby.Generated;
 
 namespace Application.Dtos;

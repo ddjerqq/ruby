@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Application.Dtos;
 using Application.Services;
 using AutoMapper;
@@ -37,6 +38,65 @@ public sealed class HomeController : ApiController
     }
 
     /// <summary>
+    /// Create a random item type
+    /// </summary>
+    [HttpPost("create_item_type")]
+    public async Task<ActionResult<ItemType>> CreateItemType(CancellationToken ct)
+    {
+        var itemType = ItemType.RandomItemType();
+
+        DbContext.Set<ItemType>().Add(itemType);
+        await DbContext.SaveChangesAsync(ct);
+
+        return Ok(itemType);
+    }
+
+    /// <summary>
+    /// Get all item types
+    /// </summary>
+    [HttpGet("get_all_item_types")]
+    public async Task<ActionResult<IEnumerable<ItemType>>> ItemTypes(CancellationToken ct)
+    {
+        var itemTypes = await DbContext.Set<ItemType>()
+            .ToListAsync(ct);
+
+        return Ok(itemTypes);
+    }
+
+    // buy item
+    /// <summary>
+    /// Buy an item
+    /// </summary>
+    [HttpPost("buy_item")]
+    public async Task<ActionResult<ItemDto>> BuyItem([FromQuery] string userId, [FromQuery] string itemTypeId, CancellationToken ct)
+    {
+        var user = await DbContext.Set<User>()
+            .Include(u => u.Inventory)
+            .FirstOrDefaultAsync(u => u.Id == UserId.Parse(userId), ct);
+
+        if (user is null)
+            return NotFound();
+
+        var itemType = await DbContext.Set<ItemType>()
+            .FirstOrDefaultAsync(x => x.Id == ItemTypeId.Parse(itemTypeId), ct);
+
+        if (itemType is null)
+            return NotFound();
+
+        if (user.Wallet.Balance < 100)
+            return BadRequest("Not enough balance");
+
+        var item = itemType.NewItem(user, DateTimeProvider.UtcNow, user.Id.ToString());
+
+        Debug.Assert(user.Wallet.TryRemoveFunds(100));
+        user.Inventory.Add(item);
+
+        await DbContext.SaveChangesAsync(ct);
+
+        return Ok(Mapper.Map<ItemDto>(item));
+    }
+
+    /// <summary>
     /// Create a new user from query
     /// </summary>
     [HttpPost("create_user")]
@@ -47,7 +107,7 @@ public sealed class HomeController : ApiController
             Username = username,
             Wallet = new Wallet(Random.Shared.Next(0, 10_000)),
             Level = new Level(Random.Shared.Next(0, 1000)),
-            Inventory = Enumerable.Range(0, Random.Shared.Next(0, 10)).Select(_ => Item.RandomItem()).ToList(),
+            Inventory = [],
             Created = DateTimeProvider.UtcNow,
             CreatedBy = "system",
         };

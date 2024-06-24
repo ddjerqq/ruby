@@ -1,5 +1,4 @@
-﻿using Domain.Entities;
-using Ruby.Generated;
+﻿using Ruby.Generated;
 
 namespace Test.Domain.Entities;
 
