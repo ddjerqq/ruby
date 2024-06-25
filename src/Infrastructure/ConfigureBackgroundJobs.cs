@@ -2,7 +2,6 @@ using System.ComponentModel;
 using Application;
 using Domain.Common;
 using Infrastructure.BackgroundJobs;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 
@@ -12,7 +11,7 @@ namespace Infrastructure;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public sealed class ConfigureBackgroundJobs : ConfigurationBase
 {
-    protected override void ConfigureServices(WebHostBuilderContext context, IServiceCollection services)
+    public override void ConfigureServices(IServiceCollection services)
     {
         services.AddQuartz(config =>
         {

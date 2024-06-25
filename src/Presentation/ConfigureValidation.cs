@@ -11,7 +11,7 @@ namespace Presentation;
 public sealed class ConfigureValidation : ConfigurationBase
 {
     /// <inheritdoc />
-    protected override void ConfigureServices(WebHostBuilderContext context, IServiceCollection services)
+    public override void ConfigureServices(IServiceCollection services)
     {
         services.AddValidatorsFromAssembly(Domain.Domain.Assembly, includeInternalTypes: true);
         services.AddValidatorsFromAssembly(Application.Application.Assembly, includeInternalTypes: true);

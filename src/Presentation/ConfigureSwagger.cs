@@ -11,9 +11,9 @@ namespace Presentation;
 public sealed class ConfigureSwagger : ConfigurationBase
 {
     /// <inheritdoc />
-    protected override void ConfigureServices(WebHostBuilderContext context, IServiceCollection services)
+    public override void ConfigureServices(IServiceCollection services)
     {
-        if (!context.HostingEnvironment.IsDevelopment())
+        if (!IsDevelopment)
             return;
 
         services.AddEndpointsApiExplorer();

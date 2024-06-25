@@ -2,7 +2,9 @@
 
 services:
   api:
-    build: .
+    build:
+      context: .
+      dockerfile: src/Presentation/Dockerfile
     container_name: api
     ports:
       - "8000:8000"
@@ -55,4 +57,14 @@ services:
       - SEQ_FIRSTRUN_ADMINPASSWORDHASH=
     volumes:
       - ./.logs/seq/:/data
+    restart: unless-stopped
+
+  discordclient:
+    build:
+      context: .
+      dockerfile: src/DiscordClient/Dockerfile
+    container_name: discordclient
+    env_file:
+      - .env
+    shm_size: 128mb
     restart: unless-stopped

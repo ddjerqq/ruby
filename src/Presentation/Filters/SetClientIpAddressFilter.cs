@@ -5,10 +5,15 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Presentation.Filters;
 
+/// <inheritdoc />
 public sealed class SetClientIpAddressFilter : IActionFilter
 {
-    public const string ClientIpItemName = "client_ip_address";
+    private const string ClientIpItemName = "client_ip_address";
 
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="context"></param>
     [SuppressMessage("Usage", "ASP0019", Justification = "This is a filter, not a controller action")]
     public void OnActionExecuting(ActionExecutingContext context)
     {
@@ -23,6 +28,7 @@ public sealed class SetClientIpAddressFilter : IActionFilter
         context.HttpContext.Items[ClientIpItemName] = ipAddress.ToString();
     }
 
+    /// <inheritdoc />
     public void OnActionExecuted(ActionExecutedContext context)
     {
     }

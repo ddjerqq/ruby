@@ -3,7 +3,6 @@ using Application;
 using Application.Services;
 using Infrastructure.Idempotency;
 using Infrastructure.Services;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure;
@@ -11,7 +10,7 @@ namespace Infrastructure;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public sealed class ConfigureInfrastructure : ConfigurationBase
 {
-    protected override void ConfigureServices(WebHostBuilderContext context, IServiceCollection services)
+    public override void ConfigureServices(IServiceCollection services)
     {
         services.AddHttpContextAccessor();
         services.AddIdempotency();

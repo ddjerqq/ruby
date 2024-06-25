@@ -1,5 +1,3 @@
-using System.Reflection;
-using Application;
 using Infrastructure.Idempotency;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -14,34 +12,6 @@ namespace Presentation;
 /// </summary>
 public static class WebAppExt
 {
-    /// <summary>
-    /// Configures the configurations from all the assemblies and configuration types.
-    /// </summary>
-    public static void ConfigureAssemblies(this ConfigureWebHostBuilder builder)
-    {
-        Assembly[] assemblies =
-        [
-            Domain.Domain.Assembly,
-            Application.Application.Assembly,
-            Infrastructure.Infrastructure.Assembly,
-            Presentation.Assembly,
-        ];
-
-        assemblies
-            .SelectMany(assembly => assembly.GetTypes())
-            .Where(type => typeof(ConfigurationBase).IsAssignableFrom(type))
-            .Where(type => type is { IsInterface: false, IsAbstract: false })
-            .Where(type => type.Name.StartsWith("configure", StringComparison.InvariantCultureIgnoreCase))
-            .Select(type => (ConfigurationBase)Activator.CreateInstance(type)!)
-            .ToList()
-            .ForEach(hostingStartup =>
-            {
-                var name = hostingStartup.GetType().Name.Replace("Configure", "");
-                Console.WriteLine($@"[{DateTime.UtcNow:s}.000 INF] Configured {name}");
-                hostingStartup.Configure(builder);
-            });
-    }
-
     /// <summary>
     /// Apply any pending migrations to the database if any.
     /// </summary>

@@ -4,7 +4,6 @@ using Application;
 using Application.Services;
 using Domain.Aggregates;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.Extensions.DependencyInjection;
@@ -51,7 +50,7 @@ public sealed class ConfigureRateLimiting : ConfigurationBase
         return ValueTask.CompletedTask;
     }
 
-    protected override void ConfigureServices(WebHostBuilderContext context, IServiceCollection services)
+    public override void ConfigureServices(IServiceCollection services)
     {
         services.AddRateLimiter(options =>
         {

@@ -18,7 +18,7 @@ public sealed class ConfigurePresentation : ConfigurationBase
     private static readonly string[] CompressionTypes = ["application/octet-stream"];
 
     /// <inheritdoc />
-    protected override void ConfigureServices(WebHostBuilderContext context, IServiceCollection services)
+    public override void ConfigureServices(IServiceCollection services)
     {
         services.AddAntiforgery();
 
@@ -39,7 +39,7 @@ public sealed class ConfigurePresentation : ConfigurationBase
         services
             .AddControllers(o =>
             {
-                if (context.HostingEnvironment.IsDevelopment())
+                if (IsDevelopment)
                 {
                     o.Filters.Add<ResponseTimeFilter>();
                 }
@@ -79,7 +79,7 @@ public sealed class ConfigurePresentation : ConfigurationBase
             });
         });
 
-        services.AddSignalR(o => { o.EnableDetailedErrors = context.HostingEnvironment.IsDevelopment(); });
+        services.AddSignalR(o => { o.EnableDetailedErrors = IsDevelopment; });
 
         services.AddResponseCaching();
         services.AddResponseCompression(o =>

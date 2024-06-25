@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using AutoMapper;
-using Domain.Entities;
 using Domain.ValueObjects;
 using Ruby.Generated;
 

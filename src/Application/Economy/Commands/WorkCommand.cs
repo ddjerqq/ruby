@@ -1,8 +1,6 @@
 using System.ComponentModel;
 using Application.Services;
-using Domain.Aggregates;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Application.Economy.Commands;
 

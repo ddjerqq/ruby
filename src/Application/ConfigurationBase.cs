@@ -1,20 +1,31 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System.Reflection;
+using Domain.Common;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;
 
-public abstract class ConfigurationBase : IHostingStartup
+public abstract class ConfigurationBase
 {
-    private bool Configured { get; set; }
+    public abstract void ConfigureServices(IServiceCollection services);
 
-    protected abstract void ConfigureServices(WebHostBuilderContext context, IServiceCollection services);
+    protected static bool IsDevelopment => "ASPNETCORE_ENVIRONMENT".FromEnv("Development") == "Development";
 
-    public virtual void Configure(IWebHostBuilder builder)
+    /// <summary>
+    /// Configures the configurations from all the assemblies and configuration types.
+    /// </summary>
+    public static void ConfigureServicesFromAssemblies(IServiceCollection services, Assembly[] assemblies)
     {
-        if (!Configured)
-        {
-            builder.ConfigureServices(ConfigureServices);
-            Configured = true;
-        }
+        assemblies
+            .SelectMany(assembly => assembly.GetTypes())
+            .Where(type => typeof(ConfigurationBase).IsAssignableFrom(type))
+            .Where(type => type is { IsInterface: false, IsAbstract: false })
+            .Select(type => (ConfigurationBase)Activator.CreateInstance(type)!)
+            .ToList()
+            .ForEach(hostingStartup =>
+            {
+                var name = hostingStartup.GetType().Name.Replace("Configure", "");
+                Console.WriteLine($"[{DateTime.UtcNow:s}.000 INF] Configured {name}");
+                hostingStartup.ConfigureServices(services);
+            });
     }
 }

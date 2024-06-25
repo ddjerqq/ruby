@@ -2,7 +2,6 @@ using System.ComponentModel;
 using Application.Common.Behaviours;
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;
@@ -10,7 +9,7 @@ namespace Application;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public sealed class ConfigureApplication : ConfigurationBase
 {
-    protected override void ConfigureServices(WebHostBuilderContext context, IServiceCollection services)
+    public override void ConfigureServices(IServiceCollection services)
     {
         services.AddAutoMapper(Application.Assembly);
         services.AddValidatorsFromAssembly(Application.Assembly);

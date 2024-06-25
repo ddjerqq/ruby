@@ -2,7 +2,6 @@ using Application.Dtos;
 using Application.Items.Commands;
 using Application.Items.Queries;
 using AutoMapper;
-using Domain.Aggregates;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

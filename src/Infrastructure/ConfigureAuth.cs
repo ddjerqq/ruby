@@ -2,7 +2,6 @@ using System.ComponentModel;
 using Application;
 using Infrastructure.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.JsonWebTokens;
 
@@ -11,7 +10,7 @@ namespace Infrastructure;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public sealed class ConfigureAuth : ConfigurationBase
 {
-    protected override void ConfigureServices(WebHostBuilderContext context, IServiceCollection services)
+    public override void ConfigureServices(IServiceCollection services)
     {
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
