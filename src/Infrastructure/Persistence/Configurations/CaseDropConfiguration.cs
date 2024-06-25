@@ -23,5 +23,9 @@ internal sealed class CaseDropConfiguration : IEntityTypeConfiguration<CaseDrop>
             .WithMany()
             .HasForeignKey(drop => drop.ItemTypeId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // a case drop does not exist without a case type
+        builder.Navigation(drop => drop.ItemType)
+            .AutoInclude();
     }
 }

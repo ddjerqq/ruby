@@ -1,12 +1,11 @@
 using Application.Dtos;
 using Application.Services;
 using Application.Users.Commands;
+using Application.Users.Queries;
 using AutoMapper;
-using Domain.Aggregates;
 using Infrastructure.Auth;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Common;
 
@@ -77,5 +76,16 @@ public sealed class AuthController(IMediator mediator, IMapper mapper, ICurrentU
     {
         Response.Cookies.Delete("authorization");
         return Ok();
+    }
+
+    /// <summary>
+    /// Get all users
+    /// </summary>
+    [AllowAnonymous]
+    [HttpGet("users")]
+    public async Task<ActionResult<IEnumerable<UserDto>>> Users([FromQuery] int page = 0, [FromQuery] int perPage = 25, CancellationToken ct = default)
+    {
+        var users = await mediator.Send(new GetAllUsersQuery(page, perPage), ct);
+        return Ok(users.Select(mapper.Map<UserDto>));
     }
 }

@@ -23,7 +23,7 @@ public sealed record UserDto
 
     public IEnumerable<ItemDto> ItemInventory { get; init; } = [];
 
-    public IEnumerable<ItemDto> CaseInventory { get; init; } = [];
+    public IEnumerable<CaseDto> CaseInventory { get; init; } = [];
 }
 
 [EditorBrowsable(EditorBrowsableState.Never)]

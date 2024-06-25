@@ -15,17 +15,23 @@ public sealed class Case(CaseId id) : Entity<CaseId>(id)
 
     public DateTime? OpenedOn { get; private set; }
 
-    public UserId OwnerId { get; init; } = default!;
+    public UserId OwnerId { get; init; }
     public User Owner { get; init; } = default!;
 
-    public CaseDrop Open(DateTime openedOn)
+    public CaseDrop Open(DateTime openedOn, string openedBy)
     {
+        if (IsOpened)
+            throw new InvalidOperationException("Case is already opened");
+
         var random = new Random();
         var dropChance = (decimal)random.NextDouble();
         var dropSum = 0.0m;
 
         IsOpened = true;
         OpenedOn = openedOn;
+
+        LastModified = openedOn;
+        LastModifiedBy = openedBy;
 
         foreach (var drop in CaseType.Drops.OrderBy(x => x.DropChance))
         {
@@ -36,12 +42,4 @@ public sealed class Case(CaseId id) : Entity<CaseId>(id)
 
         throw new InvalidOperationException("No drop found");
     }
-
-    public static Case NewCase(User owner, CaseType type, DateTime created, string createdBy) => new(CaseId.NewCaseId())
-    {
-        CaseType = type,
-        Owner = owner,
-        Created = created,
-        CreatedBy = createdBy,
-    };
 }

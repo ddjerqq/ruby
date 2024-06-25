@@ -19,6 +19,10 @@ internal sealed class ItemConfiguration : IEntityTypeConfiguration<Item>
             .HasForeignKey(item => item.ItemTypeId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        // an item does not exist without an item type
+        builder.Navigation(x => x.ItemType)
+            .AutoInclude();
+
         builder.ComplexProperty(x => x.Quality, qualityBuilder =>
         {
             qualityBuilder.HasChangeTrackingStrategy(ChangeTrackingStrategy.Snapshot);

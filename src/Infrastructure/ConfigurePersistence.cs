@@ -6,6 +6,7 @@ using Infrastructure.Persistence;
 using Infrastructure.Persistence.Interceptors;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -28,8 +29,15 @@ public class ConfigurePersistence : ConfigurationBase
                 builder.EnableSensitiveDataLogging();
             }
 
+            // To see warnings in the console about potentially slow queries.
+            // builder.ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning));
+
             var dbPath = "DB__PATH".FromEnv();
-            builder.UseSqlite($"Data Source={dbPath}");
+            builder.UseSqlite($"Data Source={dbPath}", sqliteOptions =>
+            {
+                // TODO test if we need this
+                // sqliteOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+            });
         });
 
         services.AddDatabaseDeveloperPageExceptionFilter();

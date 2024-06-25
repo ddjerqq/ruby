@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using System.Security.Claims;
 using Application;
 using Infrastructure.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

@@ -1,4 +1,5 @@
-﻿using Ruby.Generated;
+﻿using Domain.Aggregates;
+using Ruby.Generated;
 
 namespace Test.Domain.Entities;
 

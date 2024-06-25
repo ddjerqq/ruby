@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using Application.Services;
-using BCrypt.Net;
 using Domain.Aggregates;
 using FluentValidation;
 using MediatR;
@@ -47,11 +46,11 @@ public sealed class UserLoginCommandValidator : AbstractValidator<UserLoginComma
 }
 
 [EditorBrowsable(EditorBrowsableState.Never)]
-internal sealed class UserLoginCommandHandler(IAppDbContext dbContext, IDateTimeProvider dateTimeProvider) : IRequestHandler<UserLoginCommand, User?>
+internal sealed class UserLoginCommandHandler(IAppDbContext dbContext) : IRequestHandler<UserLoginCommand, User?>
 {
     public async Task<User?> Handle(UserLoginCommand request, CancellationToken ct)
     {
-        var user = await dbContext.Users.FirstOrDefaultAsync(x => x.Username == request.Username || x.Email == request.Email, ct);
+        var user = await dbContext.Users.SingleOrDefaultAsync(x => x.Username == request.Username || x.Email == request.Email, ct);
 
         if (user is null || !BC.EnhancedVerify(request.Password, user.PasswordHash))
             return null;

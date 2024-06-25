@@ -17,6 +17,10 @@ internal sealed class CaseConfiguration : IEntityTypeConfiguration<Case>
             .HasForeignKey(@case => @case.CaseTypeId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        // a case does not exist without a case type
+        builder.Navigation(@case => @case.CaseType)
+            .AutoInclude();
+
         builder.HasOne(@case => @case.Owner)
             .WithMany(user => user.CaseInventory)
             .HasForeignKey(@case => @case.OwnerId)

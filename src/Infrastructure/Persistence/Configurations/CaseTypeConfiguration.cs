@@ -12,6 +12,9 @@ internal sealed class CaseTypeConfiguration : IEntityTypeConfiguration<CaseType>
     {
         builder.HasChangeTrackingStrategy(ChangeTrackingStrategy.Snapshot);
 
+        builder.HasIndex(x => x.Name)
+            .IsUnique();
+
         builder.Property(x => x.Name)
             .HasMaxLength(32);
 
@@ -22,5 +25,9 @@ internal sealed class CaseTypeConfiguration : IEntityTypeConfiguration<CaseType>
             .WithOne(drop => drop.CaseType)
             .HasForeignKey(drop => drop.CaseTypeId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // a case type does not exist without drops
+        builder.Navigation(caseType => caseType.Drops)
+            .AutoInclude();
     }
 }

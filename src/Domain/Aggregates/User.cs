@@ -1,4 +1,3 @@
-using BCrypt.Net;
 using Domain.Abstractions;
 using Domain.Entities;
 using Domain.ValueObjects;

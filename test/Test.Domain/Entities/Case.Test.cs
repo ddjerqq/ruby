@@ -1,6 +1,3 @@
-using Domain.Entities;
-using Domain.ValueObjects;
-
 namespace Test.Domain.Entities;
 
 public sealed class CaseTest

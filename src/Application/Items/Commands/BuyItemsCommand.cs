@@ -18,13 +18,13 @@ internal sealed class BuyItemsCommandHandler(IAppDbContext dbContext, IDateTimeP
     {
         var user = await dbContext.Set<User>()
             .Include(u => u.ItemInventory)
-            .FirstOrDefaultAsync(u => u.Id == request.UserId, ct);
+            .SingleOrDefaultAsync(u => u.Id == request.UserId, ct);
 
         if (user is null)
             throw new InvalidOperationException($"User with id: {request.UserId}");
 
         var itemType = await dbContext.Set<ItemType>()
-            .FirstOrDefaultAsync(x => x.Id == request.ItemTypeId, ct);
+            .FindAsync(request.ItemTypeId, ct);
 
         if (itemType is null)
             throw new InvalidOperationException($"ItemType with id: {request.ItemTypeId}");

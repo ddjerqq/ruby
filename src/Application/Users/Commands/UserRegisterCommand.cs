@@ -1,13 +1,9 @@
 using System.ComponentModel;
-using Application.Dtos;
-using Application.Economy.Commands;
 using Application.Services;
 using Domain.Aggregates;
-using Domain.ValueObjects;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Ruby.Generated;
 
 namespace Application.Users.Commands;
 

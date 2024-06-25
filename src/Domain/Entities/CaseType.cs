@@ -13,7 +13,7 @@ public sealed class CaseType(CaseTypeId id) : Entity<CaseTypeId>(id)
 
     public string ImageUrl { get; init; } = default!;
 
-    public IEnumerable<CaseDrop> Drops { get; init; } = [];
+    public ICollection<CaseDrop> Drops { get; init; } = [];
 
     public decimal Price => Drops.Sum(drop => drop.DropPrice * drop.DropChance) * HouseEdge;
 
@@ -24,23 +24,4 @@ public sealed class CaseType(CaseTypeId id) : Entity<CaseTypeId>(id)
         .Sum(drop => drop.DropChance);
 
     public float Roi => WinRate / (float)HouseEdge;
-
-    public static CaseType CreateNew(string name, string imageUrl, IEnumerable<CaseDrop> caseDrops, DateTime created, string createdBy)
-    {
-        caseDrops = caseDrops.ToList();
-
-        if (caseDrops.Sum(x => x.DropChance) != 1)
-            throw new InvalidOperationException("Drop chances must sum to 1");
-
-        var @case = new CaseType(CaseTypeId.NewCaseTypeId())
-        {
-            Name = name,
-            ImageUrl = imageUrl,
-            Created = created,
-            CreatedBy = createdBy,
-            Drops = caseDrops,
-        };
-
-        return @case;
-    }
 }
