@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Application;
 using DiscordClient;
+using DiscordClient.Common;
 using dotenv.net;
 using DSharpPlus.Entities;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,10 +1,11 @@
 using System.ComponentModel;
 using Application;
+using DiscordClient.Events;
 using DSharpPlus;
 using DSharpPlus.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DiscordClient;
+namespace DiscordClient.Common;
 
 /// <inheritdoc />
 [EditorBrowsable(EditorBrowsableState.Never)]
