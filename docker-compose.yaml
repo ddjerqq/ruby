@@ -27,23 +27,6 @@ services:
       - ./.aspnet/https:/https/:ro
     restart: unless-stopped
 
-  nginx:
-    image: nginx:alpine
-    container_name: nginx
-    depends_on:
-      - api
-    tty: true
-    ports:
-      - "80:80"
-      - "443:443"
-    shm_size: 256mb
-    volumes:
-      - ./.logs:/var/log/nginx
-      - ./nginx/conf.d/:/etc/nginx/conf.d/:ro
-      - ./nginx/ssl/:/etc/nginx/ssl/:ro
-      - ./dist/:/dist/:ro
-    restart: unless-stopped
-
   seq:
     image: datalust/seq:latest
     container_name: seq

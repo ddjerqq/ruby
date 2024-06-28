@@ -23,8 +23,8 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.6"/>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0"/>
         <PackageReference Include="Microsoft.OpenApi" Version="1.6.15"/>
-        <PackageReference Include="Quartz" Version="3.9.0"/>
-        <PackageReference Include="Quartz.Extensions.Hosting" Version="3.9.0"/>
+        <PackageReference Include="Quartz" Version="3.10.0" />
+        <PackageReference Include="Quartz.Extensions.Hosting" Version="3.10.0" />
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.6.2"/>
 
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6">
@@ -46,13 +46,12 @@
         <PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0"/>
         <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.1"/>
         <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0"/>
-        <PackageReference Include="Serilog.Sinks.File" Version="5.0.0"/>
+        <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
         <PackageReference Include="Serilog.Sinks.Seq" Version="8.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\Application\Application.csproj"/>
-        <ProjectReference Include="..\WebClient\WebClient.csproj"/>
         <ProjectReference Include="..\Domain\Domain.csproj"/>
     </ItemGroup>
 

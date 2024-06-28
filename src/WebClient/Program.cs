@@ -1,35 +1,44 @@
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using Blazored.LocalStorage;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using System.Reflection;
+using Application;
+using dotenv.net;
+using Infrastructure.Config;
 using WebClient;
-using Microsoft.AspNetCore.Components.Authorization;
-using WebClient.Services;
 
-var builder = WebAssemblyHostBuilder.CreateDefault(args);
+// fix postgres timestamp issue
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-if (builder.HostEnvironment.IsProduction())
-{
-    builder.Logging.SetMinimumLevel(LogLevel.None);
-}
+var solutionDir = Directory.GetParent(Directory.GetCurrentDirectory())?.Parent;
+DotEnv.Fluent()
+    .WithTrimValues()
+    .WithEnvFiles($"{solutionDir}/.env")
+    .WithOverwriteExistingVars()
+    .Load();
 
-builder.RootComponents.Add<App>("#app");
-builder.RootComponents.Add<HeadOutlet>("head::after");
-builder.Services.AddAuthorizationCore();
+var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.Host.UseConfiguredSerilog();
 
-builder.Services.AddSingleton(builder.HostEnvironment);
-builder.Services.AddScoped<JwtAuthManager>();
-builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthManager>(sp => sp.GetRequiredService<JwtAuthManager>());
+builder.WebHost.UseStaticWebAssets();
 
-builder.Services.AddBlazoredLocalStorage(o =>
-{
-    o.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
-    o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-});
+// service registration from configurations.
+ConfigurationBase.ConfigureServicesFromAssemblies(builder.Services, Ruby.Common.Ruby.Assemblies.Append(Assembly.GetExecutingAssembly()));
 
 var app = builder.Build();
 
-await app.RunAsync();
+app.UseConfiguredSerilogRequestLogging();
+app.MigrateDatabase();
+
+app.UseRateLimiter();
+app.UseCustomHeaderMiddleware();
+app.UseGlobalExceptionHandler();
+
+if (app.Environment.IsDevelopment())
+    app.UseDevelopmentMiddleware();
+
+if (app.Environment.IsProduction())
+    app.UseProductionMiddleware();
+
+app.UseGeneralMiddleware();
+app.MapEndpoints();
+
+app.Run();

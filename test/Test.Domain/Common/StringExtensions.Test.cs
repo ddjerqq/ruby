@@ -1,4 +1,4 @@
-using Domain.Common;
+using Ruby.Common.PrimitiveExt;
 
 namespace Test.Domain.Common;
 

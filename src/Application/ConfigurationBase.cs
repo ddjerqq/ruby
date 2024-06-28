@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
-using Domain.Common;
 using Microsoft.Extensions.DependencyInjection;
+using Ruby.Common.PrimitiveExt;
 
 namespace Application;
 
@@ -13,7 +13,7 @@ public abstract class ConfigurationBase
     /// <summary>
     /// Configures the configurations from all the assemblies and configuration types.
     /// </summary>
-    public static void ConfigureServicesFromAssemblies(IServiceCollection services, Assembly[] assemblies)
+    public static void ConfigureServicesFromAssemblies(IServiceCollection services, IEnumerable<Assembly> assemblies)
     {
         assemblies
             .SelectMany(assembly => assembly.GetTypes())

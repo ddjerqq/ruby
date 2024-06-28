@@ -1,6 +1,6 @@
 using Domain.Abstractions;
-using Domain.Common;
 using Domain.Enums;
+using Ruby.Common.PrimitiveExt;
 
 namespace Domain.ValueObjects;
 

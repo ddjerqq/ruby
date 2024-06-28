@@ -1,8 +1,8 @@
 using Domain.Abstractions;
 using Domain.Aggregates;
-using Domain.Common;
 using Domain.Enums;
 using Domain.ValueObjects;
+using Ruby.Common.PrimitiveExt;
 using Ruby.Generated;
 
 namespace Domain.Entities;

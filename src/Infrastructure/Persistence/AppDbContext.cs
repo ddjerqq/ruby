@@ -1,7 +1,6 @@
 using Application.Common;
 using Application.Services;
 using Domain.Aggregates;
-using Domain.Common;
 using Domain.Entities;
 using Domain.Enums;
 using Domain.ValueObjects;
@@ -9,6 +8,7 @@ using Infrastructure.Persistence.Interceptors;
 using Infrastructure.Persistence.ValueConverters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Ruby.Common.PrimitiveExt;
 using Ruby.Generated;
 
 namespace Infrastructure.Persistence;

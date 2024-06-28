@@ -9,7 +9,7 @@ public enum ItemQualityType
     BattleScarred = 4,
 }
 
-public static class ItemQualityExtensions
+public static class ItemQualityExt
 {
     public static string ToDisplayString(this ItemQualityType qualityType) => qualityType switch
     {

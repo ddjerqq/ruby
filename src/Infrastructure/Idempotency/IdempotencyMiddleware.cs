@@ -44,7 +44,7 @@ public sealed class IdempotencyMiddleware(IIdempotencyService idempotencyService
     }
 }
 
-public static class IdempotencyMiddlewareExtensions
+public static class IdempotencyMiddlewareExt
 {
     public static IServiceCollection AddIdempotency(this IServiceCollection services)
     {

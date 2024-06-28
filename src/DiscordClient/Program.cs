@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-using Application;
-using DiscordClient;
+﻿using Application;
 using DiscordClient.Common;
 using dotenv.net;
 using DSharpPlus.Entities;
@@ -10,16 +8,8 @@ DotEnv.Fluent()
     .WithProbeForEnv(6)
     .Load();
 
-Assembly[] assemblies =
-[
-    Domain.Domain.Assembly,
-    Application.Application.Assembly,
-    Infrastructure.Infrastructure.Assembly,
-    typeof(ServiceExt).Assembly,
-];
-
 var services = new ServiceCollection();
-ConfigurationBase.ConfigureServicesFromAssemblies(services, assemblies);
+ConfigurationBase.ConfigureServicesFromAssemblies(services, Ruby.Common.Ruby.Assemblies.Append(typeof(ServiceExt).Assembly));
 
 var serviceProvider = services.BuildServiceProvider();
 var discordClient = await serviceProvider.UseCommands();

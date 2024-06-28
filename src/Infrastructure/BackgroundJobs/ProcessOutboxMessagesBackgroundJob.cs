@@ -1,12 +1,12 @@
 using Application.Common;
 using Application.Services;
 using Domain.Abstractions;
-using Domain.Common;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Quartz;
+using Ruby.Common.PrimitiveExt;
 
 namespace Infrastructure.BackgroundJobs;
 

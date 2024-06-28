@@ -27,5 +27,6 @@
         <ProjectReference Include="..\..\source_generators\StrongIdGenerator\StrongIdGenerator.csproj"
                           OutputItemType="Analyzer"
                           ReferenceOutputAssembly="false"/>
+        <ProjectReference Include="..\Common\Common.csproj" />
     </ItemGroup>
 </Project>
