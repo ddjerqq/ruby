@@ -49,6 +49,10 @@ public static class WebAppExt
     {
         app.UseHsts();
         app.UseIdempotency();
+
+        // compress and then cache static files
+        app.UseResponseCompression();
+        app.UseResponseCaching();
     }
 
 
@@ -66,10 +70,6 @@ public static class WebAppExt
         app.UseAuthorization();
 
         app.UseAntiforgery();
-
-        // compress and then cache static files
-        app.UseResponseCompression();
-        app.UseResponseCaching();
 
         app.UseStaticFiles();
     }

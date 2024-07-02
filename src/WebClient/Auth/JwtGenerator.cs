@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Ruby.Common.PrimitiveExt;
 
-namespace Infrastructure.Services;
+namespace WebClient.Auth;
 
 /// <inheritdoc />
 public sealed class JwtGenerator : IJwtGenerator

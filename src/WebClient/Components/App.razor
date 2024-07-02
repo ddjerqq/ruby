@@ -1,7 +1,7 @@
 ﻿@using WebClient.Components.Layout
 
 <!DOCTYPE html>
-<html class="h-full w-full" lang="en">
+<html class="h-full w-full dark" lang="en">
 
 <head>
     <meta charset="utf-8"/>
@@ -25,31 +25,33 @@
 </head>
 
 <body class="w-full h-full">
-<Router AppAssembly="@typeof(App).Assembly">
-    <Found Context="routeData">
-        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
-            <Authorizing>
-                <div class="flex flex-col gap-3 text-center p-5 text-black dark:text-white">
-                    <h1 class="text-3xl sm:text-6xl font-extrabold">Loading...</h1>
-                </div>
-            </Authorizing>
+<CascadingValue Value="ThemeChanged">
+    <Router AppAssembly="@typeof(App).Assembly">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <Authorizing>
+                    <div class="flex flex-col gap-3 text-center p-5 text-white">
+                        <h1 class="text-3xl sm:text-6xl font-extrabold">Loading...</h1>
+                    </div>
+                </Authorizing>
 
-            <NotAuthorized>
-                @* <RedirectToLogin/> *@
-                <div class="flex flex-col gap-3 text-center p-5 text-black dark:text-white">
-                    <h1 class="text-3xl sm:text-6xl font-extrabold">Unauthorized, please login!</h1>
-                </div>
-            </NotAuthorized>
-        </AuthorizeRouteView>
+                <NotAuthorized>
+                    @* <RedirectToLogin/> *@
+                    <div class="flex flex-col gap-3 text-center p-5 text-white">
+                        <h1 class="text-3xl sm:text-6xl font-extrabold">Unauthorized, please login!</h1>
+                    </div>
+                </NotAuthorized>
+            </AuthorizeRouteView>
 
-        <FocusOnNavigate RouteData="routeData" Selector="h1"/>
-    </Found>
-    <NotFound>
-        <LayoutView Layout="@typeof(MainLayout)">
-            <NotFound/>
-        </LayoutView>
-    </NotFound>
-</Router>
+            <FocusOnNavigate RouteData="routeData" Selector="h1"/>
+        </Found>
+        <NotFound>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <NotFound/>
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingValue>
 
 <div id="blazor-error-ui">
     An unhandled error has occurred.
@@ -60,3 +62,27 @@
 <script src="_framework/blazor.web.js"></script>
 </body>
 </html>
+
+@code
+{
+    private string Theme { get; set; } = "dark";
+
+    private event EventHandler<string>? OnThemeChanged;
+
+    private void ThemeChanged(string theme)
+    {
+        OnThemeChanged?.Invoke(this, theme);
+    }
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        OnThemeChanged += async (_, theme) =>
+        {
+            Theme = theme;
+            await InvokeAsync(StateHasChanged);
+        };
+    }
+}

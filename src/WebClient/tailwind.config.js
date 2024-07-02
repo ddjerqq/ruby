@@ -11,10 +11,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: colors.emerald
+        primary: colors.emerald,
+        gray: colors.neutral,
       },
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+      },
+      transitionTimingFunction: {
+        "sweet": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+        "jumpy": "cubic-bezier(0.68, -0.6, 0.32, 1.6)",
       },
     },
   }

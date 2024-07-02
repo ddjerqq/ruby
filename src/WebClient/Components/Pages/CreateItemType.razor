@@ -1,0 +1,32 @@
+@page "/create_item_type"
+@using Application.Items.Commands
+
+<h1>CreateItemType</h1>
+
+<EditForm OnValidSubmit="OnValidSubmit" Model="Command">
+    <FluentValidationValidator/>
+
+    <div>
+        <label for="name">Name</label>
+        @* @bind-Value:after="@(() => SessionCreateCommand.SetChild(DbContext))" *@
+
+        <InputText id="name"
+                   @bind-Value="@Command.Name"
+                   required autofocus/>
+
+        <div class="invalid-feedback fw-bold">
+            <ValidationMessage For="@(() => Command.Name)"/>
+        </div>
+    </div>
+
+</EditForm>
+
+@code
+{
+    private CreateItemTypeCommand Command { get; set; } = new();
+
+    private void OnValidSubmit(EditContext obj)
+    {
+        throw new NotImplementedException();
+    }
+}

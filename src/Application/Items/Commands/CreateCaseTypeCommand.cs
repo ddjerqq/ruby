@@ -28,7 +28,7 @@ internal sealed class CreateCaseTypeValidator : AbstractValidator<CaseType>
             .NotEmpty()
             .Must(drops => drops.Sum(drop => drop.DropChance) == 1m)
             .WithMessage("Drop chances must sum to 1")
-            .Must(drops => drops.Count() is >= 2 and <= 10)
+            .Must(drops => drops.Count is >= 2 and <= 20)
             .WithMessage("Case must have between 2 and 10 drops");
 
         RuleSet("async", () =>

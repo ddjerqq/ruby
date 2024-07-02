@@ -1,8 +1,10 @@
 using System.ComponentModel;
 using Application;
+using Application.Services;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.JsonWebTokens;
+using WebClient.Auth;
 
 namespace WebClient.Config;
 
@@ -13,6 +15,8 @@ public sealed class ConfigureAuth : ConfigurationBase
     /// <inheritdoc />
     public override void ConfigureServices(IServiceCollection services)
     {
+        services.AddScoped<IJwtGenerator, JwtGenerator>();
+
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {

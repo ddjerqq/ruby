@@ -5,18 +5,27 @@ using Domain.Enums;
 using Domain.ValueObjects;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Ruby.Generated;
 
 namespace Application.Items.Commands;
 
-public record CreateItemTypeCommand(
-    string Name,
-    string Description,
-    float QualityMin,
-    float QualityMax,
-    bool StatTrackAvailable,
-    ItemRarity Rarity,
-    ItemImage Image) : IRequest<ItemType>;
+public sealed class CreateItemTypeCommand : IRequest<ItemType>
+{
+    public string Name { get; set; } = default!;
+
+    public string Description { get; set; } = default!;
+
+    public float QualityMin { get; set; }
+
+    public float QualityMax { get; set; }
+
+    public bool StatTrackAvailable { get; set; }
+
+    public ItemRarity Rarity { get; set; }
+
+    public ItemImage Image { get; set; } = default!;
+}
 
 [EditorBrowsable(EditorBrowsableState.Never)]
 internal sealed class CreateItemTypeValidator : AbstractValidator<ItemType>
@@ -35,7 +44,8 @@ internal sealed class CreateItemTypeValidator : AbstractValidator<ItemType>
 }
 
 [EditorBrowsable(EditorBrowsableState.Never)]
-internal sealed class CreateItemTypeCommandHandler(IAppDbContext dbContext, IDateTimeProvider dateTimeProvider, ICurrentUserAccessor currentUserAccessor) : IRequestHandler<CreateItemTypeCommand, ItemType>
+internal sealed class CreateItemTypeCommandHandler(IAppDbContext dbContext, IDateTimeProvider dateTimeProvider, ICurrentUserAccessor currentUserAccessor)
+    : IRequestHandler<CreateItemTypeCommand, ItemType>
 {
     public async Task<ItemType> Handle(CreateItemTypeCommand request, CancellationToken ct)
     {

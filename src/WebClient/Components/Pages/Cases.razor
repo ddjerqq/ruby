@@ -1,0 +1,33 @@
+﻿@page "/cases"
+@using Application.Items.Queries
+@using MediatR
+@attribute [StreamRendering]
+@rendermode InteractiveServer
+@inject IMediator Mediator
+
+<div class="w-full h-full flex flex-col p-4">
+    <h1 class="text-7xl font-bold font-sans mb-5">Case openings!</h1>
+
+    <div class="flex flex-wrap flex-col items-start">
+        @foreach (var caseType in _caseTypes)
+        {
+            <a href="cases/@caseType.Id" class="group flex flex-col justify-center items-center gap-2 p-4 border border-gray-600 bg-gray-700 hover:bg-gray-600 rounded-md">
+                <img class="size-36 transition-[transform] duration-300 ease-sweet group-hover:scale-110 group-hover:-rotate-6"
+                     src="@caseType.ImageUrl" alt="@caseType.Name's image"/>
+                <h4>@caseType.Name</h4>
+                <p class="bg-yellow-600 bg-opacity-50 p-1 rounded-md">$@caseType.Price.ToString("N2")</p>
+            </a>
+        }
+    </div>
+</div>
+
+@code
+{
+    private IEnumerable<CaseType> _caseTypes = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        var command = new GetAllCaseTypesQuery(0, 36);
+        _caseTypes = await Mediator.Send(command, CancellationToken);
+    }
+}
